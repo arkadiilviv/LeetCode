@@ -94,12 +94,12 @@ public class Program
 
 			while (taskList.Count > 0)
 			{
-				var availableTasks = taskList.Where(t => t.NextAvailableTime <= steps)
-														.OrderByDescending(t => t.RemainingCount)
-														.ToList();
-				if (availableTasks.Count > 0)
+				var currentTask = taskList
+					.Where(t => t.NextAvailableTime <= steps)
+					.MaxBy(t => t.RemainingCount);
+
+				if (currentTask != null)
 				{
-					var currentTask = availableTasks.First();
 					currentTask.RemainingCount--;
 					currentTask.NextAvailableTime = steps + n + 1;
 					if (currentTask.RemainingCount == 0)
@@ -111,6 +111,24 @@ public class Program
 			}
 
 			Console.WriteLine(steps);
+		}
+		// 621. Task Scheduler ALT
+		Console.WriteLine("621. Task Scheduler ALT");
+		{
+			char[] tasks = ['A', 'A', 'A', 'B', 'B', 'B'];
+			int n = 2;
+
+			// Count frequencies
+			Dictionary<char, int> taskCounts = new();
+			foreach (var task in tasks)
+				taskCounts[task] = taskCounts.GetValueOrDefault(task) + 1;
+
+			int maxFreq = taskCounts.Values.Max();
+			int maxFreqCount = taskCounts.Values.Count(v => v == maxFreq); // K
+
+			int result = Math.Max(tasks.Count() ,( (maxFreq * (n + 1)) - ((n + 1) - maxFreqCount)));
+
+			Console.WriteLine(result);
 		}
 	}
 }
