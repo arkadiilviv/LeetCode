@@ -1,4 +1,5 @@
 ﻿// 3110. Score of a String
+using System.Diagnostics;
 using System.Numerics;
 using System.Text;
 using System.Text.Unicode;
@@ -6,7 +7,6 @@ using System.Threading.Tasks;
 
 public class Program
 {
-
 	public class ListNode
 	{
 		public int val;
@@ -156,7 +156,7 @@ public class Program
 				new ListNode(9,
 				new ListNode(9,
 				new ListNode(9,
-				new ListNode(9, 
+				new ListNode(9,
 				new ListNode(9))))))))));
 
 			StringBuilder sb1 = new StringBuilder();
@@ -180,11 +180,10 @@ public class Program
 			ListNode ldRes = null;
 			foreach (var ch in sum.ToString().ToArray())
 			{
-				if(ldRes == null)
+				if (ldRes == null)
 				{
 					ldRes = new ListNode(int.Parse(ch.ToString()));
-				}
-				else
+				} else
 				{
 					var temp = ldRes;
 					ldRes = new ListNode(int.Parse(ch.ToString()));
@@ -194,6 +193,43 @@ public class Program
 
 			Console.WriteLine(sum);
 		}
+		// 2. ALT Add Two Numbers
+		Console.WriteLine("2. ALT Add Two Numbers");
+		{
+			ListNode l1 = new ListNode(2,
+				new ListNode(4,
+				new ListNode(3)));
+			ListNode l2 = new ListNode(5,
+				new ListNode(6,
+				new ListNode(4)));
+
+			var res = AddTwoNumbers(l1, l2);
+			while (res != null)
+			{
+				Console.Write($"{res.val} - ");
+				res = res.next;
+			}
+		}
+	}
+	public static ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+	{
+		if (l1 == null && l2 == null)
+		{
+			return null;
+		} else if (l1 == null)
+		{
+			return l2;
+		} else if (l2 == null)
+		{
+			return l1;
+		}
+
+		int sum = l1.val + l2.val;
+		ListNode newNode = new ListNode(sum % 10);
+		newNode.next = AddTwoNumbers(l1.next, l2.next);
+		if (sum >= 10)
+			newNode.next = AddTwoNumbers(newNode.next, new ListNode(1));
+		return newNode;
 	}
 }
 
