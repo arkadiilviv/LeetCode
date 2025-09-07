@@ -1,9 +1,23 @@
 ﻿// 3110. Score of a String
+using System.Numerics;
+using System.Text;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 
 public class Program
 {
+
+	public class ListNode
+	{
+		public int val;
+		public ListNode next;
+		public ListNode(int val = 0, ListNode next = null)
+		{
+			this.val = val;
+			this.next = next;
+		}
+	}
+
 	public class TaskToGo
 	{
 		public char Task { get; set; }
@@ -77,7 +91,7 @@ public class Program
 		{
 			char[] tasks = ['A', 'A', 'A', 'B', 'B', 'B'];
 			int n = 2;
-			int steps = 0; 
+			int steps = 0;
 			Dictionary<char, int> taskCounts = new Dictionary<char, int>();
 			foreach (var task in tasks)
 			{
@@ -126,9 +140,59 @@ public class Program
 			int maxFreq = taskCounts.Values.Max();
 			int maxFreqCount = taskCounts.Values.Count(v => v == maxFreq); // K
 
-			int result = Math.Max(tasks.Count() ,( (maxFreq * (n + 1)) - ((n + 1) - maxFreqCount)));
+			int result = Math.Max(tasks.Count(), ((maxFreq * (n + 1)) - ((n + 1) - maxFreqCount)));
 
 			Console.WriteLine(result);
+		}
+		// 2. Add Two Numbers
+		Console.WriteLine("2. Add Two Numbers");
+		{
+			ListNode l1 = new ListNode(1);
+			ListNode l2 = new ListNode(1,
+				new ListNode(9,
+				new ListNode(9,
+				new ListNode(9,
+				new ListNode(9,
+				new ListNode(9,
+				new ListNode(9,
+				new ListNode(9,
+				new ListNode(9, 
+				new ListNode(9))))))))));
+
+			StringBuilder sb1 = new StringBuilder();
+			while (l1 != null)
+			{
+				sb1.Insert(0, l1.val);
+				l1 = l1.next;
+			}
+
+			StringBuilder sb2 = new StringBuilder();
+			while (l2 != null)
+			{
+				sb2.Insert(0, l2.val);
+				l2 = l2.next;
+			}
+
+			BigInteger sb1Res = BigInteger.Parse(sb1.ToString());
+			BigInteger sb2Res = BigInteger.Parse(sb2.ToString());
+
+			var sum = sb1Res + sb2Res;
+			ListNode ldRes = null;
+			foreach (var ch in sum.ToString().ToArray())
+			{
+				if(ldRes == null)
+				{
+					ldRes = new ListNode(int.Parse(ch.ToString()));
+				}
+				else
+				{
+					var temp = ldRes;
+					ldRes = new ListNode(int.Parse(ch.ToString()));
+					ldRes.next = temp;
+				}
+			}
+
+			Console.WriteLine(sum);
 		}
 	}
 }
